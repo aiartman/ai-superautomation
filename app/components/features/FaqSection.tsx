@@ -29,7 +29,7 @@ export default function FaqSection() {
                   onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
                 >
                   <div className="flex items-center space-x-4">
-                    <span className="text-3xl font-bold text-gray-400">{index === 1 ? 'A' : 'Q'}</span>
+                    <span className="text-3xl font-bold text-gray-400">Q</span>
                     <span className="text-xl text-gray-800">{faq.question}</span>
                   </div>
                   <ChevronRight className={`h-6 w-6 transition-transform duration-300 ${openFaqIndex === index ? 'transform rotate-90' : ''}`} />

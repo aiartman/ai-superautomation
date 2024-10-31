@@ -4,15 +4,17 @@ import Link from 'next/link'
 export default function BlogHeader() {
   return (
     <header className="relative bg-[#f2f3f5]">
-      <div className="absolute top-0 left-0 w-24 h-full bg-gray-800 transform skew-x-12 origin-top-left z-10"></div>
-      <div className="container mx-auto px-4 flex items-center justify-between h-20 relative z-20">
-        <div className="flex items-center">
+      <div className="absolute top-0 left-0 w-24 h-full bg-gray-800 transform skew-x-12 origin-top-left z-0"></div>
+      <div className="container mx-auto px-4 flex items-center justify-between h-20 relative">
+        <div className="flex items-center relative z-10">
           <Link href="/" className="relative w-12 h-12 mr-12">
             <Image 
               src="/icons/ai-logo.png" 
               alt="AI Logo" 
-              fill
+              width={48}
+              height={48}
               className="object-contain" 
+              priority
             />
           </Link>
         </div>

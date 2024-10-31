@@ -5,26 +5,43 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from "./button"
 
-export default function Header() {
-  const [mounted, setMounted] = useState(false)
+interface HeaderProps {
+  logoSrc?: string
+}
+
+export default function Header({ logoSrc }: HeaderProps) {
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
+    setIsMounted(true)
   }, [])
 
-  if (!mounted) {
-    return null
+  if (!isMounted) {
+    return (
+      <header className="container mx-auto px-4 py-6 flex items-center justify-between relative z-10">
+        <div className="w-12 h-12" /> {/* Placeholder for logo */}
+        <nav className="hidden md:flex space-x-8">
+          {['Home', 'Super Features', 'FAQ', 'Pricing'].map((item, index) => (
+            <div key={index} className="h-6" /> // Placeholder for nav items
+          ))}
+        </nav>
+        <div className="w-24 h-10" /> {/* Placeholder for button */}
+      </header>
+    )
   }
 
   return (
     <header className="container mx-auto px-4 py-6 flex items-center justify-between relative z-10">
-      <Image 
-        src="/images/logo.svg" 
-        alt="AI Superautomation Logo" 
-        width={50} 
-        height={50}
-        priority 
-      />
+      <Link href="/" className="relative w-12 h-12">
+        <Image 
+          src={logoSrc || "/icons/ai-logo.png"} 
+          alt="AI Logo" 
+          width={48}
+          height={48}
+          className="object-contain" 
+          priority
+        />
+      </Link>
       <nav>
         <ul className="flex space-x-8">
           {['Home', 'Super Features', 'FAQ', 'Pricing'].map((item, index) => (

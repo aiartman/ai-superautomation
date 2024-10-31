@@ -19,14 +19,11 @@ export default function CaseStudySection() {
               <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
                 Read Now
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300">
-                <div className="absolute inset-0 bg-[radial-gradient(circle,_white_10%,_transparent_50%)] animate-pulse" />
-              </div>
+              <div className="absolute inset-0 bg-gray-800 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out" />
             </Button>
           </div>
           <div className="md:w-1/2 flex justify-center">
-            <div className="w-3/4">
+            <div className="w-1/2">
               <Image
                 src="/images/ai-superautomation-illustration.png"
                 alt="AI Superautomation Illustration"
