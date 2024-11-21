@@ -16,6 +16,13 @@ export default function Header({ logoSrc }: HeaderProps) {
     setIsMounted(true)
   }, [])
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   if (!isMounted) {
     return (
       <header className="container mx-auto px-4 py-6 flex items-center justify-between relative z-10">
@@ -46,12 +53,21 @@ export default function Header({ logoSrc }: HeaderProps) {
         <ul className="flex space-x-8">
           {['Home', 'Super Features', 'FAQ', 'Pricing'].map((item, index) => (
             <li key={index}>
-              <Link 
-                href={item === 'Home' ? '/' : `#${item.toLowerCase().replace(' ', '-')}`} 
-                className="text-gray-800 hover:text-gray-600 font-['Franklin_Gothic_Heavy']"
-              >
-                {item}
-              </Link>
+              {item === 'Home' ? (
+                <Link 
+                  href="/"
+                  className="text-gray-800 hover:text-gray-600 font-['Franklin_Gothic_Heavy']"
+                >
+                  {item}
+                </Link>
+              ) : (
+                <button
+                  onClick={() => scrollToSection(item.toLowerCase().replace(' ', '-'))}
+                  className="text-gray-800 hover:text-gray-600 font-['Franklin_Gothic_Heavy']"
+                >
+                  {item}
+                </button>
+              )}
             </li>
           ))}
         </ul>

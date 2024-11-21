@@ -40,7 +40,7 @@ export default function HeroSection() {
           </span>
           <div className="absolute inset-0 bg-gray-800 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out" />
         </Button>
-        <p className="text-sm text-gray-500">&quot;Just Do It&quot; - Nike</p>
+        <p className="text-sm text-gray-500">&quot;Best Tool I&apos;ve Used&quot; - James Hub</p>
       </div>
 
       {/* Wave background container */}

@@ -10,8 +10,8 @@ import { useRouter } from 'next/navigation'
 
 const testimonials = [
   { name: "Sarah L.", role: "Marketing Director", comment: "AI Superautomation revolutionized our workflow. We&apos;ve seen a 300% increase in productivity!" },
-  { name: "John D.", role: "Tech Entrepreneur", comment: "This tool is a game-changer. It&apos;s like having a team of AI experts at your fingertips." },
-  { name: "Emily R.", role: "Data Scientist", comment: "The AI models are incredibly advanced. I&apos;m amazed at how it handles complex tasks with ease." },
+  { name: "John D.", role: "Tech Entrepreneur", comment: "This tool is a game-changer. It is like having a team of 10 Really Good Salespeople at your fingertips." },
+  { name: "Emily R.", role: "Sales Manager", comment: "Seriously blown away by the results. My LinkedIn connections are through the roof!" },
   { name: "Michael K.", role: "Small Business Owner", comment: "AI Superautomation paid for itself within a week. My only regret is not getting it sooner!" },
 ]
 
@@ -55,11 +55,11 @@ const BlackFridayDeal = () => {
     },
     {
       question: "Is there a money-back guarantee?",
-      answer: "Yes, we offer a 30-day money-back guarantee. If you&apos;re not satisfied with the results, simply reach out to our support team for a full refund."
+      answer: "We don't offer a money-back guarantee, but we do offer a 100% satisfaction guarantee. If you're not satisfied with the results, simply reach out to our support team and personally fix the issue to the best of our ability."
     },
     {
       question: "How does AI Superautomation compare to hiring a VA?",
-      answer: "AI Superautomation offers 24/7 operation, consistent performance, and advanced data-driven optimization that a human VA simply can&apos;t match. Plus, at this Black Friday price, it&apos;s a fraction of the cost of hiring a full-time VA."
+      answer: "AI Superautomation offers 24/7 operation, consistent performance, and advanced data-driven optimization that a human VA simply can&apos;t match. Plus, at this Black Friday price, it is a fraction of the cost of hiring a full-time VA."
     }
   ]
 

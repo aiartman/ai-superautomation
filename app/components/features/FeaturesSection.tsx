@@ -28,7 +28,7 @@ export default function FeaturesSection() {
   }
 
   return (
-    <section id="features" className="bg-white py-12 overflow-hidden">
+    <section id="super-features" className="bg-white py-12 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row lg:items-stretch min-h-[500px]">
           {/* Left Side */}
