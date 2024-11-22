@@ -330,7 +330,7 @@ export default function PaymentSuccessPage() {
           <CardContent className="p-8">
             {/* Progress Steps */}
             <div className="mb-12">
-              <h3 className="text-3xl font-bold text-center text-black mb-8">Your AI Journey Begins</h3>
+              <h3 className="text-3xl font-bold text-center text-black mb-8">Your Journey Begins</h3>
               <div className="flex justify-between items-center relative">
                 {steps.map((step, index) => (
                   <div key={index} className="flex flex-col items-center z-10">
