@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { Button } from "@/app/components/ui/button"
 import { Card } from "@/app/components/ui/card"
 import { ChevronDown, ChevronUp, Play, ShoppingCart, Star } from 'lucide-react'
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
+import Script from 'next/script'
 
 const testimonials = [
   { name: "Sarah L.", role: "Marketing Director", comment: "AI Superautomation revolutionized our workflow. We&apos;ve seen a 300% increase in productivity!" },
@@ -17,32 +18,12 @@ const testimonials = [
 
 const BlackFridayDeal = () => {
   const [activeQuestion, setActiveQuestion] = useState<number | null>(null)
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
-  const [dealRevealed, setDealRevealed] = useState(true)
-  const videoRef = useRef<HTMLVideoElement>(null)
   const router = useRouter()
+  const [showWistiaVideo, setShowWistiaVideo] = useState(false)
 
   const toggleQuestion = (index: number) => {
     setActiveQuestion(activeQuestion === index ? null : index)
   }
-
-  const playVideo = () => {
-    if (videoRef.current) {
-      videoRef.current.play()
-      setIsVideoPlaying(true)
-    }
-  }
-
-  useEffect(() => {
-    const revealDeal = () => {
-      if (isVideoPlaying) {
-        setTimeout(() => {
-          setDealRevealed(true)
-        }, 5000)
-      }
-    }
-    revealDeal()
-  }, [isVideoPlaying])
 
   const faqItems = [
     {
@@ -64,14 +45,28 @@ const BlackFridayDeal = () => {
   ]
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
+    const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth' })
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
+      {/* Include Wistia Scripts */}
+      {showWistiaVideo && (
+        <>
+          <Script
+            src={`https://fast.wistia.com/embed/medias/mozev3qavd.jsonp`}
+            strategy="afterInteractive"
+          />
+          <Script
+            src="https://fast.wistia.com/assets/external/E-v1.js"
+            strategy="afterInteractive"
+          />
+        </>
+      )}
+
       {/* Header Section */}
       <header className="bg-white py-4 px-6 shadow-md">
         <div className="container mx-auto flex items-center justify-between">
@@ -130,27 +125,46 @@ const BlackFridayDeal = () => {
         {/* Hero Section */}
         <section className="bg-gray-100 py-20">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-5xl font-bold text-gray-800 mb-6">Black Friday Deal: Unlock AI-Powered LinkedIn Growth</h1>
-            <p className="text-2xl text-gray-600 mb-12">Watch the video to reveal your exclusive 93% discount!</p>
+            <h1 className="text-5xl font-bold text-gray-800 mb-6">
+              Black Friday Deal: Unlock AI-Powered LinkedIn Growth
+            </h1>
+            <p className="text-2xl text-gray-600 mb-12">
+              Watch the video to see how &quot;AI Superautomation&quot; can change everything for you
+            </p>
             <div className="relative max-w-3xl mx-auto aspect-video bg-gray-200 rounded-lg overflow-hidden shadow-2xl mb-8">
-              {!isVideoPlaying && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Button 
-                    className="bg-gray-800 hover:bg-gray-700 text-white text-xl py-4 px-8 rounded-full flex items-center"
-                    onClick={playVideo}
-                  >
-                    <Play className="mr-2" /> Play Video
-                  </Button>
+              {!showWistiaVideo ? (
+                <div
+                  className="relative w-full h-full cursor-pointer group"
+                  onClick={() => setShowWistiaVideo(true)}
+                >
+                  <Image
+                    src="/images/video-thumbnail.gif" // Ensure this GIF is in your public/images folder
+                    alt="Video thumbnail"
+                    fill
+                    className="object-cover rounded-lg transition-opacity duration-300 group-hover:opacity-90"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-40 transition-all duration-300">
+                    <Button
+                      className="cosmic-button flex items-center space-x-2 transform scale-100 group-hover:scale-105 transition-transform duration-300"
+                    >
+                      <Play className="h-5 w-5" />
+                      <span>Play Video</span>
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="relative w-full h-full">
+                  <iframe
+                    src="https://fast.wistia.net/embed/iframe/mozev3qavd?autoPlay=1&seo=false"
+                    title="Wistia Video"
+                    allow="autoplay; fullscreen"
+                    allowFullScreen
+                    style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
+                  ></iframe>
                 </div>
               )}
-              <video
-                ref={videoRef}
-                className="w-full h-full object-cover"
-                src="/placeholder-video.mp4"
-                onPlay={() => setIsVideoPlaying(true)}
-              />
             </div>
-            <Button 
+            <Button
               className="bg-gray-800 hover:bg-gray-700 text-white text-xl py-6 px-12 rounded-lg flex items-center justify-center mx-auto transition-all duration-300 transform hover:scale-105"
               onClick={() => router.push('/checkout')}
             >
@@ -164,9 +178,7 @@ const BlackFridayDeal = () => {
         <section id="offer" className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <h2 className="text-5xl font-bold text-center text-gray-800 mb-12">Your Exclusive Black Friday Offer</h2>
-            <Card className={`max-w-4xl mx-auto p-8 bg-gray-100 shadow-2xl transform transition-all duration-1000 ease-in-out ${
-              dealRevealed ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
-            }`}>
+            <Card className="max-w-4xl mx-auto p-8 bg-gray-100 shadow-2xl">
               <div className="flex flex-col md:flex-row items-center justify-between mb-8">
                 <div className="text-center md:text-left mb-6 md:mb-0">
                   <h3 className="text-3xl font-bold text-gray-800 mb-2">AI Superautomation: Black Friday Special</h3>

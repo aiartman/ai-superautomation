@@ -290,7 +290,7 @@ export default function PaymentSuccessPage() {
             Schedule a personalized onboarding call with our team to get started.
           </p>
           <Button asChild className="cosmic-button w-full py-3">
-            <Link href="/book-call">Schedule Call</Link>
+            <Link href="https://calendly.com/pascal-aisuperautomation/onboarding">Schedule Call</Link>
           </Button>
         </div>
       )
