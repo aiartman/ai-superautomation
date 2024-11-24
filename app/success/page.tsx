@@ -6,7 +6,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { CheckCircle, Video, Users, Calendar, ChevronRight, ChevronLeft, AlertCircle } from 'lucide-react'
 import Link from "next/link"
 import Image from "next/image"
-import Script from 'next/script'
 
 // Add these interfaces at the top of your file
 interface FormData {
