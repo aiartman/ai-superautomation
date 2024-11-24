@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: 'domain2.io',
         pathname: '/assets/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'fast.wistia.com',
+        pathname: '/embed/medias/**',
+      },
     ],
   },
 }

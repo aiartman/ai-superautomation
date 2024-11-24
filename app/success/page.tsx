@@ -425,7 +425,7 @@ export default function PaymentSuccessPage() {
           <p className="mb-6 text-black text-lg">
             Connect with other members and start collaborating in our exclusive community.
           </p>
-          <Link href="/community">
+          <Link href="https://superautomation-d70cc6.circle.so/join?invitation_token=66ddef92455c6ccc8ab7d2cd6a4f3d83adadec09-a20be59d-c1d5-4cc0-ace3-1bde4e7e6d70">
             <Button className="cosmic-button w-full py-3">
               Join Community
             </Button>
