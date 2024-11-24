@@ -54,7 +54,7 @@ export default function TestPayment() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [errorDetails, setErrorDetails] = useState<ErrorDetails | null>(null)
-  const [email, setEmail] = useState('test@example.com')
+  const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
 
