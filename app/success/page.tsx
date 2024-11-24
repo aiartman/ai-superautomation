@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { CheckCircle, Video, Users, Calendar, ChevronRight, ChevronLeft, AlertCircle } from 'lucide-react'
 import Link from "next/link"
 import Image from "next/image"
+import Script from 'next/script'
 
 // Add these interfaces at the top of your file
 interface FormData {
@@ -72,7 +73,7 @@ const submitFormToGoogleSheets = async (data: FormData): Promise<SubmissionRespo
 
 export default function PaymentSuccessPage() {
   const [activeStep, setActiveStep] = useState(0)
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+  const [showWistiaVideo, setShowWistiaVideo] = useState(false)
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
@@ -204,36 +205,61 @@ export default function PaymentSuccessPage() {
       title: "Watch Welcome Video",
       icon: <Video className="h-6 w-6" />,
       content: (
-        <div className="relative aspect-video w-full max-w-2xl mx-auto rounded-lg overflow-hidden shadow-2xl">
-          {!isVideoPlaying ? (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-              <Image
-                src="/placeholder.svg"
-                alt="Video thumbnail"
-                fill
-                className="opacity-50 object-cover"
+        <>
+          {/* Include Wistia Scripts */}
+          {showWistiaVideo && (
+            <>
+              <Script
+                src="https://fast.wistia.com/embed/medias/rjbvajo9ud.jsonp"
+                strategy="afterInteractive"
               />
-              <Button 
-                onClick={() => setIsVideoPlaying(true)}
-                className="cosmic-button absolute z-10 flex items-center"
-              >
-                <Video className="mr-2 h-5 w-5" />
-                Play Video
-              </Button>
-            </div>
-          ) : (
-            <iframe
-              width="100%"
-              height="100%"
-              src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
-              title="Welcome Video"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="rounded-lg"
-            ></iframe>
+              <Script
+                src="https://fast.wistia.com/assets/external/E-v1.js"
+                strategy="afterInteractive"
+              />
+            </>
           )}
-        </div>
+          <div className="relative aspect-video w-full max-w-2xl mx-auto rounded-lg overflow-hidden shadow-2xl">
+            {!showWistiaVideo ? (
+              <div
+                className="relative w-full h-full cursor-pointer group"
+                onClick={() => setShowWistiaVideo(true)}
+              >
+                <Image
+                  src="/images/video-thumbnail1.svg"
+                  alt="Video thumbnail"
+                  fill
+                  className="object-cover rounded-lg transition-opacity duration-300 group-hover:opacity-90"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-40 transition-all duration-300">
+                  <Button
+                    className="cosmic-button flex items-center space-x-2 transform scale-100 group-hover:scale-105 transition-transform duration-300"
+                  >
+                    <Video className="h-5 w-5" />
+                    <span>Play Video</span>
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="wistia_responsive_padding" style={{padding:'56.25% 0 0 0', position:'relative'}}>
+                <div className="wistia_responsive_wrapper" style={{height:'100%',left:0,position:'absolute',top:0,width:'100%'}}>
+                  <div className="wistia_embed wistia_async_rjbvajo9ud seo=true videoFoam=true" style={{height:'100%',position:'relative',width:'100%'}}>
+                    <div className="wistia_swatch" style={{height:'100%',left:0,opacity:0,overflow:'hidden',position:'absolute',top:0,transition:'opacity 200ms',width:'100%'}}>
+                      <Image
+                        src="https://fast.wistia.com/embed/medias/rjbvajo9ud/swatch"
+                        alt=""
+                        fill
+                        style={{filter:'blur(5px)', objectFit:'contain'}}
+                        aria-hidden="true"
+                        onLoad={(e) => (e.currentTarget.parentNode as HTMLElement).style.opacity = '1'}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </>
       )
     },
     {
