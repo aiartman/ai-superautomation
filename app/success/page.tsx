@@ -206,59 +206,37 @@ export default function PaymentSuccessPage() {
       icon: <Video className="h-6 w-6" />,
       content: (
         <>
-          {/* Include Wistia Scripts */}
-          {showWistiaVideo && (
-            <>
-              <Script
-                src="https://fast.wistia.com/embed/medias/rjbvajo9ud.jsonp"
-                strategy="afterInteractive"
+          {showWistiaVideo ? (
+            <div className="relative aspect-video w-full max-w-2xl mx-auto rounded-lg overflow-hidden shadow-2xl">
+              <iframe
+                src={`https://fast.wistia.net/embed/iframe/jnkfcpxwqq?videoFoam=true`}
+                title="Welcome Video"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+                className="absolute top-0 left-0 w-full h-full rounded-lg"
               />
-              <Script
-                src="https://fast.wistia.com/assets/external/E-v1.js"
-                strategy="afterInteractive"
+            </div>
+          ) : (
+            <div
+              className="relative w-full h-full cursor-pointer group aspect-video max-w-2xl mx-auto"
+              onClick={() => setShowWistiaVideo(true)}
+            >
+              <Image
+                src="/images/video-thumbnail1.svg"
+                alt="Video thumbnail"
+                fill
+                className="object-cover rounded-lg transition-opacity duration-300 group-hover:opacity-90"
               />
-            </>
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-40 transition-all duration-300">
+                <Button
+                  className="cosmic-button flex items-center space-x-2 transform scale-100 group-hover:scale-105 transition-transform duration-300"
+                >
+                  <Video className="h-5 w-5" />
+                  <span>Play Video</span>
+                </Button>
+              </div>
+            </div>
           )}
-          <div className="relative aspect-video w-full max-w-2xl mx-auto rounded-lg overflow-hidden shadow-2xl">
-            {!showWistiaVideo ? (
-              <div
-                className="relative w-full h-full cursor-pointer group"
-                onClick={() => setShowWistiaVideo(true)}
-              >
-                <Image
-                  src="/images/video-thumbnail1.svg"
-                  alt="Video thumbnail"
-                  fill
-                  className="object-cover rounded-lg transition-opacity duration-300 group-hover:opacity-90"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-40 transition-all duration-300">
-                  <Button
-                    className="cosmic-button flex items-center space-x-2 transform scale-100 group-hover:scale-105 transition-transform duration-300"
-                  >
-                    <Video className="h-5 w-5" />
-                    <span>Play Video</span>
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="wistia_responsive_padding" style={{padding:'56.25% 0 0 0', position:'relative'}}>
-                <div className="wistia_responsive_wrapper" style={{height:'100%',left:0,position:'absolute',top:0,width:'100%'}}>
-                  <div className="wistia_embed wistia_async_rjbvajo9ud seo=true videoFoam=true" style={{height:'100%',position:'relative',width:'100%'}}>
-                    <div className="wistia_swatch" style={{height:'100%',left:0,opacity:0,overflow:'hidden',position:'absolute',top:0,transition:'opacity 200ms',width:'100%'}}>
-                      <Image
-                        src="https://fast.wistia.com/embed/medias/rjbvajo9ud/swatch"
-                        alt=""
-                        fill
-                        style={{filter:'blur(5px)', objectFit:'contain'}}
-                        aria-hidden="true"
-                        onLoad={(e) => (e.currentTarget.parentNode as HTMLElement).style.opacity = '1'}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
         </>
       )
     },
@@ -375,7 +353,7 @@ export default function PaymentSuccessPage() {
                 value={formData.linkedInProfile}
                 onChange={handleInputChange}
                 className="mt-1 block w-full border-gray-300 focus:ring-black focus:border-black rounded-md"
-                placeholder="linkedin.com/in/yourprofile or just yourprofile"
+                placeholder="linkedin.com/in/yourprofile or just your profile"
               />
               {errors.linkedInProfile && (
                 <p className="mt-2 text-sm text-red-600">{errors.linkedInProfile}</p>
