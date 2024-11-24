@@ -125,11 +125,11 @@ const BlackFridayDeal = () => {
         {/* Hero Section */}
         <section className="bg-gray-100 py-20">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-5xl font-bold text-gray-800 mb-6">
-              Black Friday Deal: Unlock AI-Powered LinkedIn Growth
+            <h1 className="text-4xl font-bold text-gray-800 mb-6">
+              Finally!  &quot;AI Superautomation&quot; LinkedIn Breakthrough Revealed
             </h1>
             <p className="text-2xl text-gray-600 mb-12">
-              Watch the video to see how &quot;AI Superautomation&quot; can change everything for you
+              Discover how fast it can revolutionize your Business with our Black Friday Deal
             </p>
             <div className="relative max-w-3xl mx-auto aspect-video bg-gray-200 rounded-lg overflow-hidden shadow-2xl mb-8">
               {!showWistiaVideo ? (
