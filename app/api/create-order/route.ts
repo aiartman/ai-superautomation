@@ -40,7 +40,7 @@ export async function POST(req: Request) {
 
     console.log('Request payload:', JSON.stringify(orderData, null, 2))
 
-    const response = await fetch('https://sandbox-merchant.revolut.com/api/orders', {
+    const response = await fetch('https://merchant.revolut.com/api/orders', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.REVOLUT_SECRET_KEY}`,

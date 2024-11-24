@@ -62,7 +62,7 @@ export default function TestPayment() {
   useEffect(() => {
     if (!window.RevolutCheckout) {
       const script = document.createElement('script')
-      script.src = 'https://sandbox-merchant.revolut.com/embed.js'
+      script.src = 'https://merchant.revolut.com/embed.js'
       script.async = true
       script.onload = () => {
         console.log('Revolut script loaded successfully')
