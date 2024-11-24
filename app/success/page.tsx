@@ -7,17 +7,73 @@ import { CheckCircle, Video, Users, Calendar, ChevronRight, ChevronLeft, AlertCi
 import Link from "next/link"
 import Image from "next/image"
 
-// Define the FormErrors interface
+// Add these interfaces at the top of your file
+interface FormData {
+  fullName: string;
+  email: string;
+  company: string;
+  jobTitle: string;
+  linkedInProfile: string;
+  goals: string;
+  timestamp?: string;
+}
+
 interface FormErrors {
   fullName?: string;
   email?: string;
-  // Add other fields if needed
+  linkedInProfile?: string;
 }
+
+interface Notification {
+  type: 'success' | 'error';
+  message: string;
+}
+
+interface SubmissionResponse {
+  status: 'success' | 'error';
+  message: string;
+}
+
+// Update the submitFormToGoogleSheets function with proper typing
+const submitFormToGoogleSheets = async (data: FormData): Promise<SubmissionResponse> => {
+  try {
+    // Convert form data to URL-encoded format
+    const formData = new URLSearchParams();
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    // Create the URL with the deployment ID
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwSLH4PHAcwox1Q7Dww_aKHtzf8g4CAPjAPV09Wr7hWbMlt-nXcx1lUkt2P2TrTwd95/exec';
+    
+    // Make the fetch request
+    await fetch(SCRIPT_URL, {
+      redirect: 'follow',
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      mode: 'no-cors' // This is important for CORS issues
+    });
+
+    // Since we're using no-cors, we can't actually read the response
+    // So we'll return a success status
+    return { 
+      status: 'success', 
+      message: 'Form submitted successfully' 
+    };
+    
+  } catch (error) {
+    console.error('Submission error:', error);
+    throw new Error('Failed to submit form');
+  }
+};
 
 export default function PaymentSuccessPage() {
   const [activeStep, setActiveStep] = useState(0)
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
     company: '',
@@ -30,6 +86,12 @@ export default function PaymentSuccessPage() {
   const [errors, setErrors] = useState<FormErrors>({})
   const [formProgress, setFormProgress] = useState(0)
 
+  // Add loading state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Add this state for notification
+  const [notification, setNotification] = useState<Notification | null>(null);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData(prevState => ({
@@ -38,7 +100,7 @@ export default function PaymentSuccessPage() {
     }))
   }
 
-  // Update the validateForm function
+  // Update the validateForm function to be more flexible with LinkedIn URLs
   const validateForm = (): FormErrors => {
     const newErrors: FormErrors = {}
     if (!formData.fullName) newErrors.fullName = 'Full Name is required.'
@@ -47,19 +109,84 @@ export default function PaymentSuccessPage() {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email address is invalid.'
     }
-    return newErrors
+    
+    // Clean and validate LinkedIn URL if provided
+    if (formData.linkedInProfile) {
+      const cleanUrl = formData.linkedInProfile.trim().toLowerCase();
+      if (!cleanUrl.includes('linkedin.com/')) {
+        newErrors.linkedInProfile = 'Please enter a valid LinkedIn URL';
+      }
+    }
+    
+    return newErrors;
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const validationErrors = validateForm()
+  // Update the handleSubmit function
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const validationErrors = validateForm();
+    
     if (Object.keys(validationErrors).length === 0) {
-      console.log('Form submitted:', formData)
-      setActiveStep(2)
+      setIsSubmitting(true);
+      try {
+        // Clean up LinkedIn URL before submission
+        const cleanedFormData = {
+          ...formData,
+          linkedInProfile: formatLinkedInUrl(formData.linkedInProfile),
+          timestamp: new Date().toISOString()
+        };
+
+        await submitFormToGoogleSheets(cleanedFormData);
+        
+        // Show success notification
+        setNotification({
+          type: 'success',
+          message: 'Profile saved successfully! Moving to the next step...'
+        });
+
+        // Clear notification after 5 seconds
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+
+        // Move to next step after a short delay
+        setTimeout(() => {
+          setActiveStep(2);
+        }, 1500);
+        
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        setNotification({
+          type: 'error',
+          message: 'Failed to save profile. Please try again.'
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
-      setErrors(validationErrors)
+      setErrors(validationErrors);
     }
-  }
+  };
+
+  // Add this helper function to format LinkedIn URLs
+  const formatLinkedInUrl = (url: string): string => {
+    if (!url) return '';
+    
+    let cleanUrl = url.trim().toLowerCase();
+    
+    // Remove any existing protocol
+    cleanUrl = cleanUrl.replace(/^(https?:\/\/)?(www\.)?/i, '');
+    
+    // Add https:// if not present
+    if (!cleanUrl.startsWith('linkedin.com/')) {
+      // If it's just a profile ID/username, add the full path
+      if (!cleanUrl.includes('linkedin.com/')) {
+        cleanUrl = `linkedin.com/in/${cleanUrl}`;
+      }
+    }
+    
+    return `https://www.${cleanUrl}`;
+  };
 
   useEffect(() => {
     const totalFields = 5
@@ -211,19 +338,22 @@ export default function PaymentSuccessPage() {
             <div className="md:col-span-2 relative">
               <label htmlFor="linkedInProfile" className="block text-sm font-medium text-gray-700">
                 LinkedIn Profile URL
-                <span className="ml-1 text-gray-400 cursor-pointer" title="Please provide the full URL to your LinkedIn profile.">
+                <span className="ml-1 text-gray-400 cursor-pointer" title="You can enter your full LinkedIn URL or just your profile ID">
                   ⓘ
                 </span>
               </label>
               <input
                 id="linkedInProfile"
                 name="linkedInProfile"
-                type="url"
+                type="text"
                 value={formData.linkedInProfile}
                 onChange={handleInputChange}
                 className="mt-1 block w-full border-gray-300 focus:ring-black focus:border-black rounded-md"
-                placeholder="https://www.linkedin.com/in/yourprofile"
+                placeholder="linkedin.com/in/yourprofile or just yourprofile"
               />
+              {errors.linkedInProfile && (
+                <p className="mt-2 text-sm text-red-600">{errors.linkedInProfile}</p>
+              )}
             </div>
 
             <div className="md:col-span-2">
@@ -242,9 +372,13 @@ export default function PaymentSuccessPage() {
             </div>
           </div>
           <div className="text-center">
-            <button type="submit" className="cosmic-button w-full md:w-auto px-12 py-3">
-              Save Profile
-            </button>
+            <Button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="cosmic-button w-full md:w-auto px-12 py-3"
+            >
+              {isSubmitting ? 'Submitting...' : 'Save Profile'}
+            </Button>
           </div>
         </form>
       )
@@ -305,8 +439,34 @@ export default function PaymentSuccessPage() {
     }
   }, [activeStep, steps.length])
 
+  // Add this notification component
+  const NotificationComponent = () => {
+    if (!notification) return null;
+
+    return (
+      <div
+        className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg transition-all duration-500 transform translate-y-0 ${
+          notification.type === 'success' ? 'bg-gray-500' : 'bg-red-500'
+        }`}
+        style={{ zIndex: 1000 }}
+      >
+        <div className="flex items-center text-white">
+          {notification.type === 'success' ? (
+            <CheckCircle className="h-5 w-5 mr-2" />
+          ) : (
+            <AlertCircle className="h-5 w-5 mr-2" />
+          )}
+          <p>{notification.message}</p>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+      {/* Add the notification component at the top level */}
+      <NotificationComponent />
+      
       {/* Header */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
