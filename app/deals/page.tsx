@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Button } from "@/app/components/ui/button"
 import { Card } from "@/app/components/ui/card"
-import { ChevronDown, ChevronUp, Play, ShoppingCart, Star } from 'lucide-react'
+import { ChevronDown, ChevronUp, Play, ShoppingCart, Star, Menu, X } from 'lucide-react'
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
@@ -20,6 +20,7 @@ const BlackFridayDeal = () => {
   const [activeQuestion, setActiveQuestion] = useState<number | null>(null)
   const router = useRouter()
   const [showWistiaVideo, setShowWistiaVideo] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const toggleQuestion = (index: number) => {
     setActiveQuestion(activeQuestion === index ? null : index)
@@ -68,9 +69,23 @@ const BlackFridayDeal = () => {
       )}
 
       {/* Header Section */}
-      <header className="bg-white py-4 px-6 shadow-md">
+      <header className="bg-white py-4 px-6 shadow-md relative z-50">
         <div className="container mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-gray-800 p-2"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
+
+          <div className="flex items-center justify-center flex-1 md:flex-none md:justify-start">
             <Link href="/">
               <Image 
                 src="/images/logo.png" 
@@ -81,35 +96,28 @@ const BlackFridayDeal = () => {
               />
             </Link>
           </div>
-          <nav>
+
+          <nav className="hidden md:block">
             <ul className="flex space-x-6">
               <li><Link href="/" className="text-gray-800 hover:text-gray-600">Home</Link></li>
               <li>
-                <button 
-                  onClick={() => scrollToSection('offer')} 
-                  className="text-gray-800 hover:text-gray-600"
-                >
+                <button onClick={() => scrollToSection('offer')} className="text-gray-800 hover:text-gray-600">
                   Offer
                 </button>
               </li>
               <li>
-                <button 
-                  onClick={() => scrollToSection('testimonials')} 
-                  className="text-gray-800 hover:text-gray-600"
-                >
+                <button onClick={() => scrollToSection('testimonials')} className="text-gray-800 hover:text-gray-600">
                   Testimonials
                 </button>
               </li>
               <li>
-                <button 
-                  onClick={() => scrollToSection('faq')} 
-                  className="text-gray-800 hover:text-gray-600"
-                >
+                <button onClick={() => scrollToSection('faq')} className="text-gray-800 hover:text-gray-600">
                   FAQ
                 </button>
               </li>
             </ul>
           </nav>
+
           <Button 
             variant="outline" 
             className="rounded-[20px] px-6 border-2 border-gray-800 text-gray-800 hover:bg-gray-100"
@@ -118,17 +126,69 @@ const BlackFridayDeal = () => {
             Contact Us
           </Button>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="fixed inset-x-0 top-[72px] bg-white shadow-lg z-50 md:hidden">
+            <nav className="container mx-auto px-4 py-4">
+              <ul className="space-y-4">
+                <li>
+                  <Link 
+                    href="/" 
+                    className="block py-2 text-gray-800 hover:text-gray-600"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => {
+                      scrollToSection('offer')
+                      setIsMobileMenuOpen(false)
+                    }} 
+                    className="block w-full text-left py-2 text-gray-800 hover:text-gray-600"
+                  >
+                    Offer
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => {
+                      scrollToSection('testimonials')
+                      setIsMobileMenuOpen(false)
+                    }} 
+                    className="block w-full text-left py-2 text-gray-800 hover:text-gray-600"
+                  >
+                    Testimonials
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => {
+                      scrollToSection('faq')
+                      setIsMobileMenuOpen(false)
+                    }} 
+                    className="block w-full text-left py-2 text-gray-800 hover:text-gray-600"
+                  >
+                    FAQ
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        )}
       </header>
 
       {/* Main Content */}
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="bg-gray-100 py-20">
+        <section className="bg-gray-100 py-12 md:py-20">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl font-bold text-gray-800 mb-6">
-              Finally!  &quot;AI Superautomation&quot; LinkedIn Breakthrough Revealed
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
+              Finally! &quot;AI Superautomation&quot; LinkedIn Breakthrough Revealed
             </h1>
-            <p className="text-2xl text-gray-600 mb-12">
+            <p className="text-xl md:text-2xl text-gray-600 mb-8 md:mb-12">
               Discover how fast it can revolutionize your Business with our Black Friday Deal
             </p>
             <div className="relative max-w-3xl mx-auto aspect-video bg-gray-200 rounded-lg overflow-hidden shadow-2xl mb-8">
@@ -165,28 +225,27 @@ const BlackFridayDeal = () => {
               )}
             </div>
             <Button
-              className="bg-gray-800 hover:bg-gray-700 text-white text-xl py-6 px-12 rounded-lg flex items-center justify-center mx-auto transition-all duration-300 transform hover:scale-105"
+              className="bg-gray-800 hover:bg-gray-700 text-white text-lg md:text-xl py-4 md:py-6 px-8 md:px-12 rounded-lg flex items-center justify-center mx-auto transition-all duration-300 transform hover:scale-105 w-full md:w-auto"
               onClick={() => router.push('/checkout')}
             >
               <ShoppingCart className="mr-2" /> Get The Deal Now
             </Button>
-            <div className="h-20 bg-gradient-to-b from-gray-100 to-white"></div>
           </div>
         </section>
 
         {/* Deal Section */}
-        <section id="offer" className="py-20 bg-white">
+        <section id="offer" className="py-12 md:py-20 bg-white">
           <div className="container mx-auto px-4">
-            <h2 className="text-5xl font-bold text-center text-gray-800 mb-12">Your Exclusive Black Friday Offer</h2>
-            <Card className="max-w-4xl mx-auto p-8 bg-gray-100 shadow-2xl">
-              <div className="flex flex-col md:flex-row items-center justify-between mb-8">
-                <div className="text-center md:text-left mb-6 md:mb-0">
-                  <h3 className="text-3xl font-bold text-gray-800 mb-2">AI Superautomation: Black Friday Special</h3>
-                  <p className="text-xl text-gray-600">Limited Time Offer - 93% OFF</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-center text-gray-800 mb-8 md:mb-12">Your Exclusive Black Friday Offer</h2>
+            <Card className="max-w-4xl mx-auto p-4 md:p-8 bg-gray-100 shadow-2xl">
+              <div className="flex flex-col md:flex-row items-center justify-between mb-6 md:mb-8">
+                <div className="text-center md:text-left mb-4 md:mb-0">
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">AI Superautomation: Black Friday Special</h3>
+                  <p className="text-lg md:text-xl text-gray-600">Limited Time Offer - 93% OFF</p>
                 </div>
                 <div className="text-center md:text-right">
-                  <p className="text-6xl font-bold text-gray-800 mb-2">$99</p>
-                  <p className="text-2xl text-gray-600"><span className="line-through">$1230</span></p>
+                  <p className="text-5xl md:text-6xl font-bold text-gray-800 mb-2">$99</p>
+                  <p className="text-xl md:text-2xl text-gray-600"><span className="line-through">$1230</span></p>
                 </div>
               </div>
               <div className="mb-8">
@@ -230,12 +289,12 @@ const BlackFridayDeal = () => {
         </section>
 
         {/* Testimonials Section */}
-        <section id="testimonials" className="py-20 bg-gray-50">
+        <section id="testimonials" className="py-12 md:py-20 bg-gray-50">
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">What Our Customers Say</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8 md:mb-12">What Our Customers Say</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto">
               {testimonials.map((testimonial, index) => (
-                <Card key={index} className="bg-white p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <Card key={index} className="bg-white p-4 md:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-center mb-4">
                     <div className="flex">
                       {[...Array(5)].map((_, i) => (
@@ -257,21 +316,21 @@ const BlackFridayDeal = () => {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="py-20 bg-gray-100">
+        <section id="faq" className="py-12 md:py-20 bg-gray-100">
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">Frequently Asked Questions</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8 md:mb-12">Frequently Asked Questions</h2>
             <div className="max-w-3xl mx-auto">
               {faqItems.map((item, index) => (
-                <div key={index} className="mb-6">
+                <div key={index} className="mb-4 md:mb-6">
                   <button
-                    className="flex items-center justify-between w-full text-left text-xl font-semibold bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                    className="flex items-center justify-between w-full text-left text-lg md:text-xl font-semibold bg-white p-4 md:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
                     onClick={() => toggleQuestion(index)}
                   >
-                    <span className="text-gray-800">{item.question}</span>
-                    {activeQuestion === index ? <ChevronUp className="text-gray-600" /> : <ChevronDown className="text-gray-600" />}
+                    <span className="text-gray-800 pr-8">{item.question}</span>
+                    {activeQuestion === index ? <ChevronUp className="text-gray-600 flex-shrink-0" /> : <ChevronDown className="text-gray-600 flex-shrink-0" />}
                   </button>
                   {activeQuestion === index && (
-                    <div className="bg-gray-50 p-6 rounded-b-lg mt-2 shadow-inner">
+                    <div className="bg-gray-50 p-4 md:p-6 rounded-b-lg mt-2 shadow-inner">
                       <p className="text-gray-700">{item.answer}</p>
                     </div>
                   )}
@@ -282,12 +341,12 @@ const BlackFridayDeal = () => {
         </section>
 
         {/* Call to Action Section */}
-        <section className="bg-gray-800 text-white py-16">
+        <section className="bg-gray-800 text-white py-12 md:py-16">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-8">Don&apos;t Miss This Once-in-a-Year Opportunity</h2>
-            <p className="text-xl mb-8">Join the AI revolution and supercharge your LinkedIn growth today!</p>
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Don&apos;t Miss This Once-in-a-Year Opportunity</h2>
+            <p className="text-lg md:text-xl mb-6 md:mb-8">Join the AI revolution and supercharge your LinkedIn growth today!</p>
             <Button 
-              className="bg-white hover:bg-gray-200 text-gray-800 text-xl py-4 px-8 rounded-lg"
+              className="bg-white hover:bg-gray-200 text-gray-800 text-lg md:text-xl py-4 px-6 md:px-8 rounded-lg w-full md:w-auto"
               onClick={() => router.push('/checkout')}
             >
               Claim Your Black Friday Deal Now
