@@ -58,12 +58,12 @@ const BlackFridayDeal = () => {
       {showWistiaVideo && (
         <>
           <Script
-            src={`https://fast.wistia.com/embed/medias/mozev3qavd.jsonp`}
-            strategy="afterInteractive"
+            src="https://fast.wistia.com/embed/medias/sc5aal2t39.jsonp"
+            strategy="lazyOnload"
           />
           <Script
             src="https://fast.wistia.com/assets/external/E-v1.js"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
         </>
       )}
@@ -192,7 +192,17 @@ const BlackFridayDeal = () => {
               Discover how fast it can revolutionize your Business with our Black Friday Deal
             </p>
             <div className="relative max-w-3xl mx-auto aspect-video bg-gray-200 rounded-lg overflow-hidden shadow-2xl mb-8">
-              {!showWistiaVideo ? (
+              {showWistiaVideo ? (
+                <div className="relative w-full h-full">
+                  <iframe
+                    src="https://fast.wistia.net/embed/iframe/sc5aal2t39?autoPlay=1&seo=false"
+                    title="Wistia Video"
+                    allow="autoplay; fullscreen"
+                    allowFullScreen
+                    style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
+                  ></iframe>
+                </div>
+              ) : (
                 <div
                   className="relative w-full h-full cursor-pointer group"
                   onClick={() => setShowWistiaVideo(true)}
@@ -211,16 +221,6 @@ const BlackFridayDeal = () => {
                       <span>Play Video</span>
                     </Button>
                   </div>
-                </div>
-              ) : (
-                <div className="relative w-full h-full">
-                  <iframe
-                    src="https://fast.wistia.net/embed/iframe/mozev3qavd?autoPlay=1&seo=false"
-                    title="Wistia Video"
-                    allow="autoplay; fullscreen"
-                    allowFullScreen
-                    style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
-                  ></iframe>
                 </div>
               )}
             </div>
