@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Footer from './components/ui/Footer'
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
   title: 'AI Superautomation',
@@ -22,6 +23,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   )
