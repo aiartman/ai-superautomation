@@ -28,8 +28,8 @@ const BlackFridayDeal = () => {
 
   const faqItems = [
     {
-      question: "What makes this Black Friday deal special?",
-      answer: "Our AI Superautomation service is offered at an unprecedented 93% discount, providing enterprise-level LinkedIn automation at a fraction of the cost. This deal is exclusively available during Black Friday."
+      question: "What makes this deal special?",
+      answer: "Our AI Superautomation service is offered at an unprecedented 93% discount, providing enterprise-level LinkedIn automation at a fraction of the cost.."
     },
     {
       question: "How quickly can I see results?",
@@ -41,7 +41,7 @@ const BlackFridayDeal = () => {
     },
     {
       question: "How does AI Superautomation compare to hiring a VA?",
-      answer: "AI Superautomation offers 24/7 operation, consistent performance, and advanced data-driven optimization that a human VA simply can&apos;t match. Plus, at this Black Friday price, it is a fraction of the cost of hiring a full-time VA."
+      answer: "AI Superautomation offers 24/7 operation, consistent performance, and advanced data-driven optimization that a human VA simply can&apos;t match. Plus, at this price, it is a fraction of the cost of hiring a full-time VA."
     }
   ]
 
@@ -189,7 +189,7 @@ const BlackFridayDeal = () => {
               Finally! &quot;AI Superautomation&quot; LinkedIn Breakthrough Revealed
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8 md:mb-12">
-              Discover how fast it can revolutionize your Business with our Black Friday Deal
+              Discover how fast it can revolutionize your Business with our Special Deal
             </p>
             <div className="relative max-w-3xl mx-auto aspect-video bg-gray-200 rounded-lg overflow-hidden shadow-2xl mb-8">
               {showWistiaVideo ? (
@@ -236,11 +236,11 @@ const BlackFridayDeal = () => {
         {/* Deal Section */}
         <section id="offer" className="py-12 md:py-20 bg-white">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-5xl font-bold text-center text-gray-800 mb-8 md:mb-12">Your Exclusive Black Friday Offer</h2>
+            <h2 className="text-3xl md:text-5xl font-bold text-center text-gray-800 mb-8 md:mb-12">Your Exclusive Offer</h2>
             <Card className="max-w-4xl mx-auto p-4 md:p-8 bg-gray-100 shadow-2xl">
               <div className="flex flex-col md:flex-row items-center justify-between mb-6 md:mb-8">
                 <div className="text-center md:text-left mb-4 md:mb-0">
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">AI Superautomation: Black Friday Special</h3>
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">AI Superautomation: Special Deal</h3>
                   <p className="text-lg md:text-xl text-gray-600">Limited Time Offer - 93% OFF</p>
                 </div>
                 <div className="text-center md:text-right">
@@ -279,10 +279,10 @@ const BlackFridayDeal = () => {
                 className="w-full bg-gray-800 hover:bg-gray-700 text-white text-xl py-6 rounded-lg flex items-center justify-center transition-all duration-300 transform hover:scale-105"
                 onClick={() => router.push('/checkout')}
               >
-                <ShoppingCart className="mr-2" /> Claim Your Black Friday Deal Now
+                <ShoppingCart className="mr-2" /> Claim Your Deal Now
               </Button>
               <p className="mt-4 text-sm text-gray-600 text-center">
-                This offer is valid only for the Black Friday period. Don&apos;t miss out on this incredible opportunity!
+                This offer is valid only for a limited period. Don&apos;t miss out on this incredible opportunity!
               </p>
             </Card>
           </div>
@@ -349,7 +349,7 @@ const BlackFridayDeal = () => {
               className="bg-white hover:bg-gray-200 text-gray-800 text-lg md:text-xl py-4 px-6 md:px-8 rounded-lg w-full md:w-auto"
               onClick={() => router.push('/checkout')}
             >
-              Claim Your Black Friday Deal Now
+              Claim Your Deal Now
             </Button>
           </div>
         </section>

@@ -9,8 +9,8 @@ export default function PricingSection() {
         <div className="grid md:grid-cols-2 gap-8">
           <PricingPanel
             title="Special Offer"
-            headline="Exclusive Black Friday Deal"
-            price="$100 - One Time"
+            headline="Exclusive Deal"
+            price="$150 - One Time"
             features={[
               "One fully managed LinkedIn account (100+ connections)",
               "Automated outreach sequences cloned from YOUR process",
